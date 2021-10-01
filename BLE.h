@@ -12,7 +12,7 @@ char buffer, ReadBuffer[4], RXBuffer[BYTES], WrapRX[BYTES];
 volatile uint8_t Write_flag, Read_flag, Wrap_error;
 int16_t i, Rcount=0, Wcount=0;
 
-void ResetBLE(void) //Hardware reset of BLE module; usde with caution
+void ResetBLE(void) //Hardware reset of BLE module; use with caution
 {
 	 RESET //Reset pin low
 	 TA0CCR0 = RESET_TIME; // Hold RST low for 20 ms in LPM3
@@ -79,33 +79,33 @@ void ReadBLE(void) //Reads BYTES from BLE
 	 	RELEASE_SPI //Pull CS line high
 	 	/* The BLE module acknowledges the above read command with the 4 byte string 0x20,0x02,0x0A,[num strings],[bytes]
 	 	Wait ~6 ms in this setup for bytes to arrive on SPI.  */
-	 		 TA0CCR0 = PACKET_DELAY;
-	 		 LPM3;
-	 		 ENABLE_SPI  //Re-assert CS line
-	 		 __delay_cycles(CS_DELAY); //100 us
-	 		 for (i=0; i < BYTES; i++)
+	 	TA0CCR0 = PACKET_DELAY;
+	 	LPM3;
+	 	ENABLE_SPI  //Re-assert CS line
+	 	__delay_cycles(CS_DELAY); //100 us
+	 	for (i=0; i < BYTES; i++)
+	 	{
+	 		while (!(UCB0IFG & UCTXIFG));
+	 		UCB0TXBUF = 0xAA; //Load dummy data into transmit buffer
+	 		while (!(UCB0IFG & UCRXIFG));
+	 		RXBuffer[i] = UCB0RXBUF;
+	 		if (i==1) //First two bytes have arrived
 	 		{
-	 			while (!(UCB0IFG & UCTXIFG));
-	 			UCB0TXBUF = 0xAA; //Load dummy data into transmit buffer
-	 			while (!(UCB0IFG & UCRXIFG));
-	 			RXBuffer[i] = UCB0RXBUF;
-	 			if (i==1) //First two bytes have arrived
+	 			if ((RXBuffer[0]==0x20)&&(RXBuffer[1]==0x02)) ;
+	 			else //Problem on BLE SPI
 	 			{
-	 				if ((RXBuffer[0]==0x20)&&(RXBuffer[1]==0x02)) ;
-	 			 	else //Problem on BLE SPI
-	 			 	{
-	 			 		Read_flag=1;
-	 			 		break;
-	 				}
+	 			 	Read_flag=1;
+	 			 	break;
 	 			}
-	 			else if (i==3) //4th byte indicates size of data string
-	 			{
-	 				Rcount = (int16_t)RXBuffer[3]; //Number of data packets
-	 			 	if (RXBuffer[3] == 0x00) break;
-	 			 }
-	 			 else if (i == (Rcount+3)) break; //Run loop until all bytes read
-				 else ; //Should never get here
 	 		}
+	 		else if (i==3) //4th byte indicates size of data string
+	 		{
+	 			Rcount = (int16_t)RXBuffer[3]; //Number of data packets
+	 			if (RXBuffer[3] == 0x00) break;
+	 		}
+	 		else if (i == (Rcount+3)) break; //Run loop until all bytes read
+			else ; //Should never get here
+	 	}
 	 	RELEASE_SPI //Pull CS line high
 	 	UCB0CTLW0 |= UCSWRST; //Stop USCI module
 }
