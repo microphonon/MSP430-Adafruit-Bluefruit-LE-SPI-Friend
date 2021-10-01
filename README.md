@@ -5,7 +5,7 @@
 
 <p>The MSP430 configures the BLE module to advertise as "LED Demo". Select UART after connecting with the Adafruit app. The app switches the red LED on P4.6 on and off by sending single lower-case characters t or f, respectively. Any other characters generate an input error. The Launchpad will acknowledge a change in LED state by sending a short message to the Bluefruit app. 
 
-<p>Communication between the MSP430 and BLE module is via SPI on eUSCI_B0. The BLE module is configured using the UART-AT command set encoded with the SDEP protocol. This is implemented with a wrapper script, where an acknowledgement from the module is returned automatically. Separate write and read functions send and receive data to/from the app via BLE wireless.
+<p>Communication between the MSP430 and BLE module is via SPI on eUSCI_B0. The BLE module is configured using the UART-AT command set encoded with the SDEP protocol. This is implemented with a wrapper script, where an acknowledgement from the module is returned automatically. Separate write and read functions send and receive data to/from the app via BLE wireless. Details can be found in the Adafruit documentation linked above.
   
 <p>The following Launchpad pins are used:
   <br>P1.0 Green LED
