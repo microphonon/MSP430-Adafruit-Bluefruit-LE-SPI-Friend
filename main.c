@@ -105,7 +105,7 @@ void main(void) {
              TA0CCR0 = LP_DELAY;
              LPM3;
              if((Read_flag==1)||(RXBuffer[3]==0)) ; //Nothing to read
-             else if (RXBuffer[3]!=2)
+             else if (RXBuffer[3]!=2) //2 byte payload includes return character
                  {
                      WriteBLE(R_ERROR,sizeof R_ERROR); //RX Error text string
                  }
