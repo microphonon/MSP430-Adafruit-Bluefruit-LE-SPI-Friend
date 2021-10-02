@@ -1,7 +1,7 @@
 # MSP430-Adafruit-Bluefruit-LE-SPI-Friend
 
 <p>This repo demonstrates how to setup a two-way interface between an MSP430FR5969 Launchpad and the Adafruit Bluefruit Connect app using Adafruit's Bluefruit SPI Friend module: 
-<p>https://www.adafruit.com/product/2633?gclid=CjwKCAjw49qKBhAoEiwAHQVToze_cQ8XmDIFbZZq_7Cx-OM4uzhu8GeIeo-ED6BqCfLWBkAdUf5meBoCWg4QAvD_BwE
+<p>https://www.adafruit.com/product/2633
 
 <p>The MSP430 configures the BLE module to advertise as "LED Demo". Select UART after connecting with the Adafruit app. The app switches the red LED on P4.6 on and off by sending single lower-case characters t or f, respectively. Any other characters generate an input error. The Launchpad will acknowledge a change in LED state by sending a short message to the Bluefruit app. 
 
