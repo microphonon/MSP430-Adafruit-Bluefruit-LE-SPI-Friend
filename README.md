@@ -19,5 +19,5 @@
 <p><b>Important:</b> The IRQ interrupt pin on the SPI Friend is <b>not</b> used as it is a highly unreliable indicator of the state of the module. Instead, the module is polled using Timer_A sourced to ACLK at 32768 Hz with LFXT referenced to the onboard crystal. The timer idles in LPM3. It is critical to introduce suitable delays between sequential operations in the BLE module. These delays were determined by experimentation.
   
 <p> Requires nofloat printf support in Code Composer. 3.3V for the BLE module can be supplied
- by the Launchpad. This repo contains the MSP430 firmware only; Adafruit maintains the firmware for their module. 
+ by the Launchpad. Modifications will be needed for the different MSP430 Launchpad models, but the code is thoroughly documented to make this transparent. This repo contains the MSP430 firmware only; Adafruit maintains the firmware for their module. 
   
